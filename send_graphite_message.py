@@ -24,7 +24,7 @@ def send_asg_data(asg, age):
     # print(asg)
     # print(age)
     graphyte.init('graphite', prefix='sam')
-    graphyte.send('asg.'+asg+'.asg-age', age)
+    graphyte.send('asg.'+asg+'.'+asg+'.asg-age-days', age)
 
 
 def ami_looper(ami_dict):
@@ -39,7 +39,7 @@ def send_ami_data(asg, ami, age):
     # print(ami)
     # print(age)
     graphyte.init('graphite', prefix='sam')
-    graphyte.send('asg.'+asg+'.'+ami+'.ami-age', age)
+    graphyte.send('asg.'+asg+'.'+ami+'.ami-age-days', age)
 
 
 def instance_looper(instance_dict):
@@ -54,7 +54,7 @@ def send_instance_data(asg, instance, age):
     # print(instance)
     # print(age)
     graphyte.init('graphite', prefix='sam')
-    graphyte.send('asg.'+asg+'.'+instance+'.instance-age', age)
+    graphyte.send('asg.'+asg+'.'+instance+'.instance-age-days', age)
 
 
 asg_looper(asg_data)
