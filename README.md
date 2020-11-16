@@ -39,26 +39,6 @@ Acceptance Criteria
     Age of AMI in use by ASG
     How long since ASG was last deployed
 
-## Notes
-
-                            NOTES
-
-    • Remember that ASGS are currently hardcoded in desc_asg
-    • Webops int appears to be the only profile any with asgs
-         you have access to.
-         Lab01 on the 19th of october doesnt have any ASGS
-    • Webops int has launch templates and confs?
-
-
-    •Leave templates alone for the moment
-    Conf = CreatedTime
-
-    lambda changed to age handler
-
-    do i need to do anything with lambda?
-    what about graphite as matt h recommended?
-    how do these interact with each other?
-    how does grafana obtain this information?
     
 ### License
 
