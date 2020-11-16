@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "ami_build_age"
+version = "0.1.0"
+description = "ami build age finder for telemetry"
+authors = ["sam.allwright"]
+
+[tool.poetry.dependencies]
+python = "3.7.5"
+aws = "^0.2.5"
+aws-profile = "^0.6.1"
+boto3 = "^1.16.2"
+awscli = "^1.18.164"
+graphyte = "^1.6.0"
+
+[tool.poetry.dev-dependencies]
+autopep8 = "^1.5.4"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -1,6 +1,23 @@
 from datetime import datetime, timedelta, tzinfo
 import boto3
 import desc_launch_conf
+import logging
+import sys
+from botocore.exceptions import ClientError
+
+def get_logger():
+    logger = logging.getLogger('telescope-ec2-age')
+    logger.setLevel(logging.DEBUG)
+
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setLevel(logging.DEBUG)
+    formatter = logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    return logger
+
+logger = get_logger()
 
 ec2_client = boto3.client('ec2', region_name='eu-west-2')
 
@@ -30,11 +47,19 @@ def describe_imageIds(image_id):
                 image_id
             ]
         )
+        logging.info(response)
         for image in response["Images"]:
             creation_date = image["CreationDate"]
         return creation_date
+    except ClientError as e:
+        logger.error(str(e))
+        return None
+    except Exception as e:
+        logger.error(str(e))
+        return None
     except:
-        return
+        logger.error("Unexpected error:", sys.exc_info()[0])
+        return None
 
 
 def ami_time_handler(creation_date_string):
