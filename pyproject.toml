@@ -5,7 +5,7 @@ description = "ami build age finder for telemetry"
 authors = ["sam.allwright"]
 
 [tool.poetry.dependencies]
-python = "3.7.5"
+python = "^3.5.2"
 aws = "^0.2.5"
 aws-profile = "^0.6.1"
 boto3 = "^1.16.2"
