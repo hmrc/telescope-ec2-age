@@ -5,6 +5,7 @@ import graphyte
 import logging
 import sys
 
+
 def get_logger():
     logger = logging.getLogger('telescope-ec2-age')
     logger.setLevel(logging.DEBUG)
@@ -17,6 +18,7 @@ def get_logger():
     logger.addHandler(handler)
 
     return logger
+
 
 logger = get_logger()
 
@@ -42,7 +44,7 @@ def send_asg_data(asg, age):
     # print(asg)
     # print(age)
     graphyte.init('graphite', prefix='sam')
-    graphyte.send('asg.'+asg+'.'+asg+'.asg-age-days', age)
+    graphyte.send('asg.' + asg + '.' + asg + '.asg-age-days', age)
 
 
 def publish_amis_to_graphite(images_data):
@@ -57,7 +59,7 @@ def send_ami_data(asg, ami, age):
     # print(ami)
     # print(age)
     graphyte.init('graphite', prefix='sam')
-    graphyte.send('asg.'+asg+'.'+ami+'.ami-age-days', age)
+    graphyte.send('asg.' + asg + '.' + ami + '.ami-age-days', age)
 
 
 def publish_instances_to_graphite(instances_data):
@@ -72,7 +74,7 @@ def send_instance_data(asg, instance, age):
     # print(instance)
     # print(age)
     graphyte.init('graphite', prefix='sam')
-    graphyte.send('asg.'+asg+'.'+instance+'.instance-age-days', age)
+    graphyte.send('asg.' + asg + '.' + instance + '.instance-age-days', age)
 
 
 if __name__ == '__main__':
