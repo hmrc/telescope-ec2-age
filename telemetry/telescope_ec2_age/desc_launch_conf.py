@@ -1,5 +1,6 @@
 import boto3
-import desc_asg
+import telemetry.telescope_ec2_age.desc_asg as desc_asg
+
 autoscaling_client = boto3.client('autoscaling', region_name='eu-west-2')
 
 
@@ -30,6 +31,3 @@ def describe_launch_conf(launch_name):
         image_id = launch_config["ImageId"]
         lcn = launch_config["LaunchConfigurationName"]
         return {lcn: image_id}
-
-# for i in handler_launch_images().items():
-#     print(i)

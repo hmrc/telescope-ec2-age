@@ -24,5 +24,7 @@ yarn-error.log
 
 # telescope-ec2-age
 /__pycache__
+/.coverage
+/.pytest_cache
 /.vscode
 *.pyc

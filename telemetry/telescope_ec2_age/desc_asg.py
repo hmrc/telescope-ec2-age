@@ -1,5 +1,5 @@
 import boto3
-from datetime import timedelta, datetime, tzinfo
+from datetime import datetime
 
 autoscaling_client = boto3.client('autoscaling', region_name='eu-west-2')
 
@@ -33,7 +33,7 @@ def describe_asgs_launch_conf():
 def filter_dict(conf_diction):
     filtered_absent_confs = {}
     for key, value in conf_diction.items():
-        if value != None:
+        if value is not None:
             filtered_absent_confs[key] = value
     return filtered_absent_confs
 

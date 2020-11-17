@@ -1,5 +1,5 @@
 import boto3
-from datetime import datetime, timedelta, timezone, tzinfo
+from datetime import datetime
 
 autoscaling_client = boto3.client('autoscaling', region_name='eu-west-2')
 ec2_client = boto3.client('ec2', region_name='eu-west-2')
@@ -46,6 +46,3 @@ def handler():
     for asg_name, list_of_instances in describe_asg().items():
         new_dict[asg_name] = instance_time(describe_instances(list_of_instances))
     return new_dict
-
-# for i in handler().items():
-#     print(i)
