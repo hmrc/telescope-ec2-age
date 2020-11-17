@@ -8,4 +8,4 @@ RUN pip install --upgrade pip poetry
 
 RUN poetry install
 
-CMD ["poetry", "run", "pytest"]
+CMD ["poetry", "run", "pytest", "--cov=telemetry"]

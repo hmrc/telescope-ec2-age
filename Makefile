@@ -11,10 +11,10 @@ build-py3.5: ## Build the Python 3.5 container
 	@docker build -t telemetry/telescope-ec2-age:latest .
 .PHONY: build-py3.5
 
-test-py3.5-local: ## Run tests in a Python 3.5 container
-	@docker run --rm telemetry/telescope-ec2-age -v $(PWD):/app
+test-py3.5-local: ## Run tests in a Python 3.5 container with a mounted volume (local)
+	@docker run -v $(PWD):/app --rm telemetry/telescope-ec2-age poetry run pytest --cov=telemetry
 .PHONY: test-py3.5
 
-test-py3.5-ci:
-	@docker run --rm telemetry/telescope-ec2-age
+test-py3.5-ci: ## Run tests in a Python 3.5 container (CI)
+	@docker run --rm telemetry/telescope-ec2-age poetry run pytest --cov=telemetry
 .PHONY: test-ci
