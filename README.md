@@ -26,19 +26,19 @@ The Telemetry team do not currently have good visibility of the age of the AMIs 
 ### Install dependencies
 
 ```bash
-$ poetry install
+$ make build
 ```
 
 ### Run tests
 
 ```bash
-$ poetry run pytest --cov=telemetry
+$ make test-py35-dev
 ```
 
 ### Run the application
 
 ```bash
-$ poetry run python bin/telescope-ec2-age
+ aws-profile -p webops-integration-RoleInterimPlatformDeity make run-py35
 ```
 
 ### License
