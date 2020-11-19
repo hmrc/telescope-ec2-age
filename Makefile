@@ -38,3 +38,7 @@ run-py35-debug: ## Run the telescope-ec2-age application in a Python 3.5 contain
 sh-py35: ## Get a shell in a Python 3.5 container
 	@docker run ${DOCKER_AWS_VARS} -it -v $(PWD):/app --rm telemetry/telescope-ec2-age bash
 .PHONY: sh-py35
+
+test-py35-dev: ## Run pytest and test coverage
+	@docker run -v $(PWD):/app --rm telemetry/telescope-ec2-age poetry run pytest --cov=telemetry
+.PHONY: test-py35-dev
