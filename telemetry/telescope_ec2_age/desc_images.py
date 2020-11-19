@@ -10,25 +10,25 @@ logger = get_logger()
 ec2_client = boto3.client('ec2', region_name='eu-west-2')
 
 
-def dictionary_handler_assign(self):
-    return launch_dict(recieve_launch_confs_from_launch_conf())
+def dictionary_handler_assign():
+    return launch_dict(receive_launch_confs_from_launch_conf())
 
 
 def launch_dict(launch_conf_dict):
     dictionary = {}
     for asg_name, launch_d in launch_conf_dict.items():
         for conf, image in launch_d.items():
-            image_age = ami_time_handler(describe_imageIds(image))
+            image_age = ami_time_handler(describe_image_ids(image))
             if image_age is not None:
                 dictionary[asg_name] = {image: image_age}
     return dictionary
 
 
-def recieve_launch_confs_from_launch_conf():
+def receive_launch_confs_from_launch_conf():
     return desc_launch_conf.handler_launch_images()
 
 
-def describe_imageIds(image_id):
+def describe_image_ids(image_id):
     try:
         response = ec2_client.describe_images(
             ImageIds=[
