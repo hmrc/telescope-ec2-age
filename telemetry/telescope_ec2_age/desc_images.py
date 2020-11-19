@@ -10,6 +10,7 @@ ec2_client = boto3.client('ec2', region_name='eu-west-2')
 
 
 def dictionary_handler_assign():
+    logger.info("Fetching EC2 image details from all Launch Configuration resources...")
     return launch_dict(receive_launch_confs_from_launch_conf())
 
 

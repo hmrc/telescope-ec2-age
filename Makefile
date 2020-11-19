@@ -28,11 +28,11 @@ poetry-update: ## Update the dependencies as according to the pyproject.toml fil
 .PHONY: update
 
 run-py35: ## Run the telescope-ec2-age application in a Python 3.5 container
-	@docker run ${DOCKER_AWS_VARS} -v $(PWD):/app --rm telemetry/telescope-ec2-age python bin/telescope-ec2-age.py
+	@docker run ${DOCKER_AWS_VARS} -v $(PWD):/app --rm telemetry/telescope-ec2-age python bin/telescope-ec2-age.py --graphite_host=host.docker.internal
 .PHONY: run-py35
 
 run-py35-debug: ## Run the telescope-ec2-age application in a Python 3.5 container with DEBUG log level
-	@docker run ${DOCKER_AWS_VARS} -v $(PWD):/app --rm telemetry/telescope-ec2-age python bin/telescope-ec2-age.py --log-level=DEBUG
+	@docker run ${DOCKER_AWS_VARS} -v $(PWD):/app --rm telemetry/telescope-ec2-age python bin/telescope-ec2-age.py --log-level=DEBUG --graphite_host=host.docker.internal
 .PHONY: run-py35
 
 sh-py35: ## Get a shell in a Python 3.5 container

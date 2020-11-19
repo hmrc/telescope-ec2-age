@@ -1,8 +1,11 @@
 import boto3
 from datetime import datetime
 
+from telemetry.telescope_ec2_age.logger import get_app_logger
+
 autoscaling_client = boto3.client('autoscaling', region_name='eu-west-2')
 ec2_client = boto3.client('ec2', region_name='eu-west-2')
+logger = get_app_logger()
 
 
 def describe_asg():
@@ -42,6 +45,7 @@ def instance_time(dictionary):
 
 
 def handler():
+    logger.info("Fetching the uptime for all EC2 instances...")
     new_dict = {}
     for asg_name, list_of_instances in describe_asg().items():
         new_dict[asg_name] = instance_time(describe_instances(list_of_instances))

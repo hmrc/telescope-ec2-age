@@ -5,10 +5,10 @@ autoscaling_client = boto3.client('autoscaling', region_name='eu-west-2')
 
 
 def handler_launch_images():
-    return iterator(recieve_launch_confs_from_asg())
+    return iterator(receive_launch_confs_from_asg())
 
 
-def recieve_launch_confs_from_asg():
+def receive_launch_confs_from_asg():
     conf_dict = desc_asg.handle_launch_conf_dict()
     return conf_dict
 
