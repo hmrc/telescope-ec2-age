@@ -4,8 +4,10 @@ COPY . /app
 
 WORKDIR /app
 
-RUN pip install --upgrade pip poetry
-
-RUN poetry install
+RUN pip install poetry
+RUN poetry config virtualenvs.create false
+RUN rm -rf /root/.cache/pypoetry/artifacts
+RUN poetry install -vvv
+RUN poetry export -f requirements.txt > requirements.txt
 
 CMD ["poetry", "run", "pytest", "--cov=telemetry"]
