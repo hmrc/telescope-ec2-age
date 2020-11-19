@@ -1,7 +1,7 @@
 import graphyte
-from telemetry.telescope_ec2_age.logger import get_logger
+from telemetry.telescope_ec2_age.logger import get_app_logger
 
-logger = get_logger()
+logger = get_app_logger()
 
 
 def remove_asg_suffix_code(asg_name):

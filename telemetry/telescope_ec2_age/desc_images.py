@@ -1,12 +1,11 @@
 import boto3
 import telemetry.telescope_ec2_age.desc_launch_conf as desc_launch_conf
-import logging
 import sys
-from botocore.exceptions import ClientError
 from datetime import datetime
-from telemetry.telescope_ec2_age.logger import get_logger
+from telemetry.telescope_ec2_age.logger import get_app_logger
+from botocore.exceptions import ClientError
 
-logger = get_logger()
+logger = get_app_logger()
 ec2_client = boto3.client('ec2', region_name='eu-west-2')
 
 
@@ -30,13 +29,15 @@ def receive_launch_confs_from_launch_conf():
 
 def describe_image_ids(image_id):
     try:
+        logger.debug("Fetching details for EC2 image with ID %s" % image_id)
         response = ec2_client.describe_images(
             ImageIds=[
                 image_id
             ]
         )
-        logging.info(response)
+        creation_date = None
         for image in response["Images"]:
+            logger.debug(image)
             creation_date = image["CreationDate"]
         return creation_date
     except ClientError as e:
@@ -51,12 +52,10 @@ def describe_image_ids(image_id):
 
 
 def ami_time_handler(creation_date_string):
-    if creation_date_string == None:
+    if creation_date_string is None:
         return creation_date_string
     time_obj = datetime.strptime(
         creation_date_string, "%Y-%m-%dT%H:%M:%S.%fZ")
     timedelta = datetime.now(time_obj.tzinfo) - time_obj
     return timedelta.days
 
-# for i in dictionary_handler_assign().items():
-#     print(i)

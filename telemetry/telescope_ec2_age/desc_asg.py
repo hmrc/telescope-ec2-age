@@ -41,6 +41,3 @@ def filter_dict(conf_diction):
 def age_returner(age):
     timedelta = datetime.now(age.tzinfo) - age
     return timedelta.days
-
-# for i in asg_age_handler().items():
-#     print(i)

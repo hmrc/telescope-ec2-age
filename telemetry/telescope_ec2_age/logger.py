@@ -1,9 +1,11 @@
 import logging
 import sys
 
+from telemetry.telescope_ec2_age import APP_NAME
 
-def get_logger(level=logging.INFO):
-    logger = logging.getLogger('telescope-ec2-age')
+
+def create_app_logger(level=logging.INFO):
+    logger = logging.getLogger(APP_NAME)
     logger.setLevel(level)
 
     handler = logging.StreamHandler(sys.stdout)
@@ -13,3 +15,7 @@ def get_logger(level=logging.INFO):
     logger.addHandler(handler)
 
     return logger
+
+
+def get_app_logger():
+    return logging.getLogger(APP_NAME)
