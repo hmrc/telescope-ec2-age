@@ -22,6 +22,8 @@ def main(log_level=logging.INFO, graphite_host="graphite"):
     send_graphite_message.publish_amis_to_graphite(ami_data, graphite_host)
     send_graphite_message.publish_instances_to_graphite(instance_data, graphite_host)
 
+    logger.info("All done.")
+
 
 if __name__ == '__main__':
     fire.Fire(main)
