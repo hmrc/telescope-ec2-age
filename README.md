@@ -54,6 +54,7 @@ poetry-update                  Update the dependencies as according to the pypro
 run-py35-debug                 Run the telescope-ec2-age application in a Python 3.5 container with DEBUG log level
 run-py35                       Run the telescope-ec2-age application in a Python 3.5 container
 sh-py35                        Get a shell in a Python 3.5 container
+test-py35-dev                  Run pytest and test coverage
 ```
 
 ### License
