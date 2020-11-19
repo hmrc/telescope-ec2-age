@@ -1,7 +1,10 @@
 import boto3
-from datetime import timedelta, datetime, tzinfo
+from datetime import datetime
+
+from telemetry.telescope_ec2_age.logger import get_app_logger
 
 autoscaling_client = boto3.client('autoscaling', region_name='eu-west-2')
+logger = get_app_logger()
 
 
 def handle_launch_conf_dict():
@@ -10,6 +13,7 @@ def handle_launch_conf_dict():
 
 
 def asg_age_handler():
+    logger.info("Fetching the creation time for all Auto Scaling Group resources...")
     asg_dict, conf_diction = describe_asgs_launch_conf()
     return asg_dict
 
@@ -33,7 +37,7 @@ def describe_asgs_launch_conf():
 def filter_dict(conf_diction):
     filtered_absent_confs = {}
     for key, value in conf_diction.items():
-        if value != None:
+        if value is not None:
             filtered_absent_confs[key] = value
     return filtered_absent_confs
 
@@ -41,6 +45,3 @@ def filter_dict(conf_diction):
 def age_returner(age):
     timedelta = datetime.now(age.tzinfo) - age
     return timedelta.days
-
-# for i in asg_age_handler().items():
-#     print(i)

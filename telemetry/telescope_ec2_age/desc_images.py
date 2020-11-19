@@ -1,54 +1,44 @@
-from datetime import datetime, timedelta, tzinfo
 import boto3
-import desc_launch_conf
-import logging
+import telemetry.telescope_ec2_age.desc_launch_conf as desc_launch_conf
 import sys
+from datetime import datetime
+from telemetry.telescope_ec2_age.logger import get_app_logger
 from botocore.exceptions import ClientError
 
-def get_logger():
-    logger = logging.getLogger('telescope-ec2-age')
-    logger.setLevel(logging.DEBUG)
-
-    handler = logging.StreamHandler(sys.stdout)
-    handler.setLevel(logging.DEBUG)
-    formatter = logging.Formatter(
-        '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
-    return logger
-
-logger = get_logger()
-
+logger = get_app_logger()
 ec2_client = boto3.client('ec2', region_name='eu-west-2')
 
 
 def dictionary_handler_assign():
-    return launch_dict(recieve_launch_confs_from_launch_conf())
+    logger.info("Fetching EC2 image details from all Launch Configuration resources...")
+    return launch_dict(receive_launch_confs_from_launch_conf())
 
 
 def launch_dict(launch_conf_dict):
     dictionary = {}
     for asg_name, launch_d in launch_conf_dict.items():
         for conf, image in launch_d.items():
-            image_age = ami_time_handler(describe_imageIds(image))
-            if image_age != None:
+            image_age = ami_time_handler(describe_image_ids(image))
+            if image_age is not None:
                 dictionary[asg_name] = {image: image_age}
     return dictionary
 
 
-def recieve_launch_confs_from_launch_conf():
+def receive_launch_confs_from_launch_conf():
     return desc_launch_conf.handler_launch_images()
 
 
-def describe_imageIds(image_id):
+def describe_image_ids(image_id):
     try:
+        logger.debug("Fetching details for EC2 image with ID %s" % image_id)
         response = ec2_client.describe_images(
             ImageIds=[
                 image_id
             ]
         )
-        logging.info(response)
+        creation_date = None
         for image in response["Images"]:
+            logger.debug(image)
             creation_date = image["CreationDate"]
         return creation_date
     except ClientError as e:
@@ -63,13 +53,10 @@ def describe_imageIds(image_id):
 
 
 def ami_time_handler(creation_date_string):
-    if creation_date_string == None:
+    if creation_date_string is None:
         return creation_date_string
     time_obj = datetime.strptime(
         creation_date_string, "%Y-%m-%dT%H:%M:%S.%fZ")
     timedelta = datetime.now(time_obj.tzinfo) - time_obj
     return timedelta.days
 
-
-# for i in dictionary_handler_assign().items():
-#     print(i)
