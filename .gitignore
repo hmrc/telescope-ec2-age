@@ -28,3 +28,4 @@ yarn-error.log
 /.pytest_cache
 /.vscode
 *.pyc
+/requirements.txt
