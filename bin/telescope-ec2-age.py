@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import logging
 
 import fire
@@ -14,6 +14,7 @@ from telemetry.telescope_ec2_age.logger import create_app_logger
 def main(log_level=logging.INFO, graphite_host="graphite"):
     logger = create_app_logger(log_level)
     logger.info("Running %s v%s" % (APP_NAME, APP_VERSION))
+
     asg_data = desc_asg.asg_age_handler()
     ami_data = desc_images.dictionary_handler_assign()
     instance_data = instance_uptime.handler()
