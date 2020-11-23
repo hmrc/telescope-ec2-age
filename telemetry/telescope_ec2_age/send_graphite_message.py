@@ -1,4 +1,6 @@
 import graphyte
+
+from telemetry.telescope_ec2_age import METRICS_PREFIX
 from telemetry.telescope_ec2_age.logger import get_app_logger
 
 logger = get_app_logger()
@@ -18,7 +20,7 @@ def publish_asgs_to_graphite(autoscaling_groups_data, graphite_host):
 
 
 def send_asg_data(asg, age, graphite_host):
-    graphyte.init(graphite_host, prefix='sam')
+    graphyte.init(graphite_host, prefix=METRICS_PREFIX)
     graphyte.send('asg.' + asg + '.' + asg + '.asg-age-days', age)
 
 
@@ -31,7 +33,7 @@ def publish_amis_to_graphite(images_data, graphite_host):
 
 
 def send_ami_data(asg, ami, age, graphite_host):
-    graphyte.init(graphite_host, prefix='sam')
+    graphyte.init(graphite_host, prefix=METRICS_PREFIX)
     graphyte.send('asg.' + asg + '.' + ami + '.ami-age-days', age)
 
 
@@ -43,5 +45,5 @@ def publish_instances_to_graphite(instances_data, graphite_host):
 
 
 def send_instance_data(asg, instance, age, graphite_host):
-    graphyte.init(graphite_host, prefix='sam')
+    graphyte.init(graphite_host, prefix=METRICS_PREFIX)
     graphyte.send('asg.' + asg + '.' + instance + '.instance-age-days', age)
