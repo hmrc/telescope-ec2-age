@@ -21,7 +21,8 @@ def publish_asgs_to_graphite(autoscaling_groups_data, graphite_host):
 
 def send_asg_data(asg, age, graphite_host):
     graphyte.init(graphite_host, prefix=METRICS_PREFIX)
-    graphyte.send('asg.' + asg + '.' + asg + '.asg-age-days', age)
+    graphyte.send(asg + '.asg' + '.age-seconds', age)
+
 
 
 def publish_amis_to_graphite(images_data, graphite_host):
@@ -34,7 +35,7 @@ def publish_amis_to_graphite(images_data, graphite_host):
 
 def send_ami_data(asg, ami, age, graphite_host):
     graphyte.init(graphite_host, prefix=METRICS_PREFIX)
-    graphyte.send('asg.' + asg + '.' + ami + '.ami-age-days', age)
+    graphyte.send(asg+'.ami'+'.age-seconds', age)
 
 
 def publish_instances_to_graphite(instances_data, graphite_host):
@@ -46,4 +47,4 @@ def publish_instances_to_graphite(instances_data, graphite_host):
 
 def send_instance_data(asg, instance, age, graphite_host):
     graphyte.init(graphite_host, prefix=METRICS_PREFIX)
-    graphyte.send('asg.' + asg + '.' + instance + '.instance-age-days', age)
+    graphyte.send(asg + '.instance' + '.age-seconds', age)

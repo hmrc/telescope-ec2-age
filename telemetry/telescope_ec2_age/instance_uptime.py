@@ -40,7 +40,7 @@ def instance_time(dictionary):
     time_dict = {}
     for key, launch_time in dictionary.items():
         timedelta = datetime.now(launch_time.tzinfo) - launch_time
-        time_dict[key] = timedelta.days
+        time_dict[key] = timedelta.seconds
     return time_dict
 
 

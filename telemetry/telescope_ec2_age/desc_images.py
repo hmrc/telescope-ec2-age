@@ -58,5 +58,5 @@ def ami_time_handler(creation_date_string):
     time_obj = datetime.strptime(
         creation_date_string, "%Y-%m-%dT%H:%M:%S.%fZ")
     timedelta = datetime.now(time_obj.tzinfo) - time_obj
-    return timedelta.days
+    return timedelta.seconds
 
