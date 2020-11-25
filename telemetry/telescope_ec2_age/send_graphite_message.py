@@ -24,7 +24,7 @@ def send_asg_data(asg, age, graphite_host):
     graphyte.send(asg + '.asg' + '.age-seconds', age)
 
 
-def publish_ami_data_to_graphite(images_data, graphite_host):
+def publish_amis_to_graphite(images_data, graphite_host):
     logger.info("Publishing AMIs age to graphite")
     for asg_name, image_and_age in images_data.items():
         asg_name = remove_asg_suffix_code(asg_name)
