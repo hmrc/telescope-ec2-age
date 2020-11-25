@@ -13,7 +13,7 @@ ami-install: ## Install this package using pip in a Telemetry AMI
 	pip3 install poetry
 	poetry export -f requirements.txt --without-hashes -o requirements.txt
 	poetry build -f wheel -v
-	pip3 install -r requirements.txt  --ignore-installed
+	pip3 install -r requirements.txt
 	pip3 install dist/telescope_ec2_age-*.whl
 	cp bin/telescope-ec2-age.py /usr/local/bin/telescope-ec2-age.py
 .PHONY: ami-install
