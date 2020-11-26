@@ -7,7 +7,9 @@ logger = get_app_logger()
 
 
 def remove_asg_suffix_code(asg_name):
+    print(asg_name)
     split = asg_name.split('-asg', 1)[0]
+    print(split)
     return split
 
 
@@ -52,4 +54,4 @@ def publish_instances_to_graphite(instances_data, graphite_host):
 
 def send_instance_data(asg, instance, age, graphite_host):
     graphyte.init(graphite_host, prefix=METRICS_PREFIX)
-    graphyte.send(asg + instance + '.age-seconds', age)
+    graphyte.send(asg + "." + instance + '.age-seconds', age)
