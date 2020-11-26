@@ -7,9 +7,7 @@ logger = get_app_logger()
 
 
 def remove_asg_suffix_code(asg_name):
-    print(asg_name)
     split = asg_name.split('-asg', 1)[0]
-    print(split)
     return split
 
 
