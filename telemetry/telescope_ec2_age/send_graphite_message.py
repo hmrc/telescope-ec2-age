@@ -2,6 +2,7 @@ import graphyte
 
 from telemetry.telescope_ec2_age import METRICS_PREFIX
 from telemetry.telescope_ec2_age.logger import get_app_logger
+import random
 
 logger = get_app_logger()
 
@@ -40,7 +41,7 @@ def send_ami_age_data(asg, age, graphite_host):
 
 def send_ami_id_data(asg, image_id, graphite_host):
     graphyte.init(graphite_host, prefix=METRICS_PREFIX)
-    graphyte.send(asg + '.ami' + '.name.' + image_id, 0)
+    graphyte.send(asg + '.ami' + '.name.' + image_id, random.randint(0, 10))
 
 
 def publish_instances_to_graphite(instances_data, graphite_host):
