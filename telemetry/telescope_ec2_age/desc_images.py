@@ -34,7 +34,8 @@ def describe_image_ids(image_id):
         response = ec2_client.describe_images(
             ImageIds=[
                 image_id
-            ]
+            ],
+            MaxRecords=1
         )
         creation_date = None
         for image in response["Images"]:
