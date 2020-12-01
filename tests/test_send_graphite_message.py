@@ -8,7 +8,7 @@ def test_remove_asg_suffix_code():
     result = remove_asg_suffix_code(asg_name)
     assert result == expected_result
 
-
+#this needs refactoring just dummy atm for mock graphite WIP
 def test_send_asgs():
     asg_name = 'classic-services-admin-asg'
     asg_age = 0
