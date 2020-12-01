@@ -18,6 +18,8 @@ def launch_dict(launch_conf_dict):
     dictionary = {}
     for asg_name, launch_d in launch_conf_dict.items():
         for conf, image in launch_d.items():
+            logger.debug('asg name: ' + str(asg_name))
+            logger.debug('imageid: ' + str(image))
             image_age = ami_time_handler(describe_image_ids(image))
             if image_age is not None:
                 dictionary[asg_name] = {image: image_age}
@@ -34,8 +36,7 @@ def describe_image_ids(image_id):
         response = ec2_client.describe_images(
             ImageIds=[
                 image_id
-            ],
-            MaxRecords=1
+            ]
         )
         creation_date = None
         for image in response["Images"]:
@@ -59,5 +60,9 @@ def ami_time_handler(creation_date_string):
     time_obj = datetime.strptime(
         creation_date_string, "%Y-%m-%dT%H:%M:%S.%fZ")
     timedelta = datetime.now(time_obj.tzinfo) - time_obj
-    return timedelta.seconds
+
+    logger.debug(('ami Timestamp: creationDate: ' + creation_date_string))
+    logger.debug('ami Timestamp: timeobj: ' + str(time_obj))
+    logger.debug('ami Timestamp: delta: ' + str(timedelta.total_seconds()))
+    return timedelta.total_seconds()
 

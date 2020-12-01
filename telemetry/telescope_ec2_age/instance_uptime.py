@@ -40,7 +40,11 @@ def instance_time(dictionary):
     time_dict = {}
     for key, launch_time in dictionary.items():
         timedelta = datetime.now(launch_time.tzinfo) - launch_time
-        time_dict[key] = timedelta.seconds
+        time_dict[key] = timedelta.total_seconds()
+
+        logger.debug('instance id: ' + str(key))
+        logger.debug('intance Timestamp: creationDate: ' + str(launch_time))
+        logger.debug('instance Timestamp: delta: ' + str(timedelta.total_seconds()))
     return time_dict
 
 
@@ -48,5 +52,6 @@ def handler():
     logger.info("Fetching the uptime for all EC2 instances...")
     new_dict = {}
     for asg_name, list_of_instances in describe_asg().items():
+        logger.debug('asg name:' + str(asg_name))
         new_dict[asg_name] = instance_time(describe_instances(list_of_instances))
     return new_dict
