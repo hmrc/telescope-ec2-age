@@ -25,8 +25,7 @@ def describe_launch_conf(launch_name):
     response = autoscaling_client.describe_launch_configurations(
         LaunchConfigurationNames=[
             launch_name
-        ],
-        MaxRecords=1
+        ]
     )
     for launch_config in response["LaunchConfigurations"]:
         image_id = launch_config["ImageId"]
