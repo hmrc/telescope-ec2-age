@@ -27,7 +27,13 @@ def describe_asgs_launch_conf():
         asg_launch = asg.get("LaunchConfigurationName")
         asg_time = asg["CreatedTime"]
 
+
         uptime = age_returner(asg_time)
+
+        logger.debug('asg name: ' + asg_name)
+        logger.debug('asg Timestamp: creationDate: ' + str(asg_time))
+        logger.debug('asg Timestamp: delta: ' + str(uptime))
+
 
         asg_dict[asg_name] = {asg_launch: uptime}
         conf_dict[asg_name] = asg_launch
@@ -44,4 +50,4 @@ def filter_dict(conf_diction):
 
 def age_returner(age):
     timedelta = datetime.now(age.tzinfo) - age
-    return timedelta.seconds
+    return timedelta.total_seconds()
