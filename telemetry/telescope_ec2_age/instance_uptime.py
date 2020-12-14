@@ -1,6 +1,7 @@
 import boto3
 from datetime import datetime
-
+import sys
+from botocore.exceptions import ClientError
 from telemetry.telescope_ec2_age.logger import get_app_logger
 
 autoscaling_client = boto3.client('autoscaling', region_name='eu-west-2')
@@ -24,9 +25,20 @@ def describe_asg():
 
 
 def describe_instances(instance_list):
-    response = ec2_client.describe_instances(
-        InstanceIds=instance_list
-    )
+    try:
+        response = ec2_client.describe_instances(
+            InstanceIds=instance_list
+        )
+    except ClientError as e:
+        logger.error(str(e))
+        return None
+    except Exception as e:
+        logger.error(str(e))
+        return None
+    except:
+        logger.error("Unexpected error:", sys.exc_info()[0])
+        return None
+
     instance_dictionary = {}
     for reservation in response["Reservations"]:
         for instance in reservation["Instances"]:
@@ -37,6 +49,8 @@ def describe_instances(instance_list):
 
 
 def instance_time(dictionary):
+    if dictionary is None:
+        return dictionary
     time_dict = {}
     for key, launch_time in dictionary.items():
         timedelta = datetime.now(launch_time.tzinfo) - launch_time
@@ -55,3 +69,7 @@ def handler():
         logger.debug('asg name:' + str(asg_name))
         new_dict[asg_name] = instance_time(describe_instances(list_of_instances))
     return new_dict
+
+for a ,b in handler().items():
+    print(a)
+    print(b)
