@@ -29,6 +29,13 @@ def describe_instances(instance_list):
         response = ec2_client.describe_instances(
             InstanceIds=instance_list
         )
+        instance_dictionary = {}
+        for reservation in response["Reservations"]:
+            for instance in reservation["Instances"]:
+                launch_time = instance["LaunchTime"]
+                instance_id_name = instance["InstanceId"]
+                instance_dictionary[instance_id_name] = launch_time
+        return instance_dictionary
     except ClientError as e:
         logger.error(str(e))
         return None
@@ -38,14 +45,6 @@ def describe_instances(instance_list):
     except:
         logger.error("Unexpected error:", sys.exc_info()[0])
         return None
-
-    instance_dictionary = {}
-    for reservation in response["Reservations"]:
-        for instance in reservation["Instances"]:
-            launch_time = instance["LaunchTime"]
-            instance_id_name = instance["InstanceId"]
-            instance_dictionary[instance_id_name] = launch_time
-    return instance_dictionary
 
 
 def instance_time(dictionary):
@@ -69,7 +68,3 @@ def handler():
         logger.debug('asg name:' + str(asg_name))
         new_dict[asg_name] = instance_time(describe_instances(list_of_instances))
     return new_dict
-
-for a ,b in handler().items():
-    print(a)
-    print(b)
