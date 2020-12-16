@@ -11,8 +11,7 @@ logger = get_app_logger()
 
 def describe_asg():
     response = autoscaling_client.describe_auto_scaling_groups()
-
-    asg_dict = {}
+    asgs = {}
     for asg in response["AutoScalingGroups"]:
         instance_list = []
         asg_name = asg["AutoScalingGroupName"]
@@ -20,8 +19,8 @@ def describe_asg():
             if instance != "":
                 id_of_instance = instance["InstanceId"]
                 instance_list.append(id_of_instance)
-            asg_dict[asg_name] = instance_list
-    return asg_dict
+            asgs[asg_name] = instance_list
+    return asgs
 
 
 def describe_instances(instance_list):
@@ -29,13 +28,13 @@ def describe_instances(instance_list):
         response = ec2_client.describe_instances(
             InstanceIds=instance_list
         )
-        instance_dictionary = {}
+        instance_launch_times = {}
         for reservation in response["Reservations"]:
             for instance in reservation["Instances"]:
                 launch_time = instance["LaunchTime"]
                 instance_id_name = instance["InstanceId"]
-                instance_dictionary[instance_id_name] = launch_time
-        return instance_dictionary
+                instance_launch_times[instance_id_name] = launch_time
+        return instance_launch_times
     except ClientError as e:
         logger.error(str(e))
         return None
@@ -47,24 +46,24 @@ def describe_instances(instance_list):
         return None
 
 
-def instance_time(dictionary):
-    if dictionary is None:
-        return dictionary
-    time_dict = {}
-    for key, launch_time in dictionary.items():
+def instance_time(instance_launch_times):
+    if instance_launch_times is None:
+        return instance_launch_times
+    instance_uptime = {}
+    for instance_id, launch_time in instance_launch_times.items():
         timedelta = datetime.now(launch_time.tzinfo) - launch_time
-        time_dict[key] = timedelta.total_seconds()
+        instance_uptime[instance_id] = timedelta.total_seconds()
 
-        logger.debug('instance id: ' + str(key))
+        logger.debug('instance id: ' + str(instance_id))
         logger.debug('intance Timestamp: creationDate: ' + str(launch_time))
         logger.debug('instance Timestamp: delta: ' + str(timedelta.total_seconds()))
-    return time_dict
+    return instance_uptime
 
 
 def handler():
     logger.info("Fetching the uptime for all EC2 instances...")
-    new_dict = {}
+    asg_instance_uptime = {}
     for asg_name, list_of_instances in describe_asg().items():
         logger.debug('asg name:' + str(asg_name))
-        new_dict[asg_name] = instance_time(describe_instances(list_of_instances))
-    return new_dict
+        asg_instance_uptime[asg_name] = instance_time(describe_instances(list_of_instances))
+    return asg_instance_uptime
