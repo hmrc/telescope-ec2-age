@@ -26,35 +26,26 @@ The Telemetry team do not currently have good visibility of the age of the AMIs 
 ### Install dependencies
 
 ```bash
-❯ make build
+make build
 ```
 
 ### Run tests
 
 ```bash
-❯ make test-py35-dev
+make test-py3-dev
 ```
 
 ### Run the application
 
 ```bash
-❯ ssh -L 2003:graphite:2003 <graphite-frontend-ip-address>
-❯ aws-profile -p webops-integration-RoleInterimPlatformDeity make run-py35
+ssh -L 2003:graphite:2003 <graphite-frontend-ip-address>
+aws-profile -p webops-integration-RoleInterimPlatformDeity make run-py3
 ```
 
 ### List actions available
 
 ```bash
-❯ make help
-build                          Install local Poetry dependencies and build the Python 3.5 image
-docker-build-py35              Build the Python 3.5 container
-help                           The help text you're reading
-poetry-build                   Builds a tarball and a wheel Python packages
-poetry-update                  Update the dependencies as according to the pyproject.toml file
-run-py35-debug                 Run the telescope-ec2-age application in a Python 3.5 container with DEBUG log level
-run-py35                       Run the telescope-ec2-age application in a Python 3.5 container
-sh-py35                        Get a shell in a Python 3.5 container
-test-py35-dev                  Run pytest and test coverage
+make help
 ```
 
 ### License

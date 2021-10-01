@@ -10,10 +10,9 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.5.2"
-boto3 = "^1.16.2"
 graphyte = "^1.6.0"
 fire = "^0.3.1"
+boto3 = "^1.18.52"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "^1.5.4"
